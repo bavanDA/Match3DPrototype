@@ -18,6 +18,9 @@ public class playableObjects : MonoBehaviour
     {
         Drag = false;
         isAct = false;
+        trash = GameObject.Find("trash");
+        targetPosition1 = GameObject.Find("TargetPosition1");
+        targetPosition2 = GameObject.Find("TargetPosition2");
     }
 
     private void Update()
@@ -26,8 +29,9 @@ public class playableObjects : MonoBehaviour
         {
             if (transform.position.x > (trash.transform.position.x - 2) && transform.position.x < (trash.transform.position.x + 2))
             {
-                if(transform.position.z > trash.transform.position.z - 1 && transform.position.z < trash.transform.position.z + 1)
+                if(transform.position.z > trash.transform.position.z - 2 && transform.position.z < trash.transform.position.z + 2)
                 {
+                    
                     if (trash.GetComponent<SimlarObjectsCheck>().activeObject1.tag=="trash")
                     {
                         trash.GetComponent<SimlarObjectsCheck>().activeObject1 = this.gameObject;
@@ -48,6 +52,7 @@ public class playableObjects : MonoBehaviour
             this.transform.position = targetPosition1.transform.position;
             Rigidbody rb= this.GetComponent<Rigidbody>();
             rb.drag = 500;
+            rb.angularDrag = 500;
             this.transform.rotation = new Quaternion(0f, 0f, 0f,0f);
             //Debug.Log("1:" + trash.GetComponent<SimlarObjectsCheck>().activeObject1.tag);
             //Debug.Log("2:" + trash.GetComponent<SimlarObjectsCheck>().activeObject2.tag);
@@ -56,6 +61,11 @@ public class playableObjects : MonoBehaviour
         {
             Rigidbody rb = this.GetComponent<Rigidbody>();
             rb.drag = 0.5f;
+            rb.angularDrag = 0;
+            if (trash.GetComponent<SimlarObjectsCheck>().activeObject1 == this.gameObject)
+            {
+                trash.GetComponent<SimlarObjectsCheck>().activeObject1 = trash.GetComponent<SimlarObjectsCheck>().pos1;
+            }
         }
     }
     private void OnMouseDown()
